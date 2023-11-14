@@ -1,0 +1,25 @@
+-name: Deploy Voting App
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure Python is installed
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+    - name: Clone the voting-app repository
+      git:
+        repo: https://github.com/Blusky242/voting-app.git
+        dest: /opt/voting-app
+        update: yes
+
+    - name: Install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - python-pip
+        - docker.io
+
+    - name: Install Python dependencies
+      pip:
+        requirements: /opt/voting-app/requirements.txt

@@ -1,0 +1,12 @@
+
+{
+    "builders": [
+      {
+        "type": "docker",
+        "image": "ubuntu:latest",
+        "run_command": ["-d", "-t", "-i"],
+        "ansible_playbook_file": "deploy.yml"
+      }
+    ]
+  }
+  
